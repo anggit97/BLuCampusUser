@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rontikeky.mycampus.otpuser.blucampuruser.Algorithm.DecryptMessage;
+import com.rontikeky.mycampus.otpuser.blucampuruser.Algorithm.DiffieHelmanGenerator;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Config.Constant;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Config.FontHandler;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Config.PrefHandler;
@@ -39,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
 
     Boolean valid;
 
+    String key;
+    String plainTextOTP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister.setTypeface(fontBold);
 
         PrefHandler.init(LoginActivity.this);
+
+        key = DiffieHelmanGenerator.diffieHKeyGenerator().trim();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +128,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (response.body().getStatus().equalsIgnoreCase("true")){
 
+                        //Method untuk melakukan dekripsi pada kode otp
+                        String hasil = doDecryptMessage(key, response.body().getOtp().toString());
+
                         Log.d("DEBUG 2", String.valueOf(response.body().getOtp()));
                         PrefHandler.setId(response.body().getUserId());
                         PrefHandler.setEmailKey(response.body().getEmail());
@@ -152,6 +162,19 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,"Gagal Login", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String doDecryptMessage(String key, String chipperText) {
+        try {
+            DecryptMessage decryptMessage  =   new DecryptMessage();
+            plainTextOTP    =   decryptMessage.DecryptMessage(chipperText, key);
+            Log.d("Plaintext", plainTextOTP);
+            return plainTextOTP;
+        } catch (Exception e) {
+            Log.d("Plaintext ERROR", e.getMessage());
+        }
+
+        return key;
     }
 
     private boolean isValid(){

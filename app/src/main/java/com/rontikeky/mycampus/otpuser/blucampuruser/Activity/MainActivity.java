@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar =   (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("BLuCampus EO");
+        getSupportActionBar().setTitle("BLuCampus User");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
