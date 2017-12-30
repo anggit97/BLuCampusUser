@@ -85,13 +85,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        tvRegister.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent toRegisterActivity   =   new Intent(LoginActivity.this,RegisterActivity.class);
-//                startActivity(toRegisterActivity);
-//            }
-//        });
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toRegisterActivity   =   new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(toRegisterActivity);
+            }
+        });
     }
 
     private void onProgress(){

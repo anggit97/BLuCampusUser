@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.DetailEvent" />
-        <activity android:name=".Activity.DetailMyEventActivity"></activity>
+        <activity android:name=".Activity.DetailMyEventActivity" />
+        <activity android:name=".Activity.RegisterActivity"></activity>
     </application>
 
 </manifest>

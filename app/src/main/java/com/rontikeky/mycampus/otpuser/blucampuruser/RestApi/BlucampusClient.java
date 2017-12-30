@@ -2,12 +2,14 @@ package com.rontikeky.mycampus.otpuser.blucampuruser.RestApi;
 
 import com.rontikeky.mycampus.otpuser.blucampuruser.Activity.DetailEvent;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Request.SigninRequest;
+import com.rontikeky.mycampus.otpuser.blucampuruser.Request.SignupRequest;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Response.DaftarEventResponse;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Response.DetailEventResponse;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Response.EventResponse;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Response.MyEventDetailReponse;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Response.MyEventReponse;
 import com.rontikeky.mycampus.otpuser.blucampuruser.Response.SigninResponse;
+import com.rontikeky.mycampus.otpuser.blucampuruser.Response.SignupResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,6 +22,10 @@ import retrofit2.http.Path;
  * Created by Anggit on 07/08/2017.
  */
 public interface BlucampusClient {
+
+    @Headers("Accept: application/json")
+    @POST("regis")
+    Call<SignupResponse> dosignup(@Body SignupRequest signupUserRequest);
 
     @Headers("Accept: application/json")
     @POST("login")
