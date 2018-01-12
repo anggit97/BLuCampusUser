@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment    =   new MyEventFragment();
         }else if(id ==  R.id.nav_logout){
             PrefHandler.setLogout();
+            Intent toLoginActivity = new Intent(MainActivity.this, LoginActivity.class);
+            toLoginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(toLoginActivity);
             Toast.makeText(MainActivity.this, "Anda berhasil logout!",Toast.LENGTH_SHORT).show();
             finish();
         }

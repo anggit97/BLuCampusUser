@@ -84,7 +84,7 @@ public class DetailEvent extends AppCompatActivity {
                 if (response.isSuccessful()){
                     Log.d("DEBUG 1",new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
 
-                    Glide.with(DetailEvent.this).load("http://blucampus.anggitprayogo.com/"+response.body().getAcara().getFotoAcara()).placeholder(R.drawable.guest).error(R.drawable.guest).into(ivEvent);
+                    Glide.with(DetailEvent.this).load(response.body().getAcara().getFotoAcara()).placeholder(R.drawable.guest).error(R.drawable.guest).into(ivEvent);
                     tanggal.setText(response.body().getAcara().getTanggalAcara());
                     tanggal_valid.setText(response.body().getAcara().getTanggalAcara());
                     judul.setText(response.body().getAcara().getJudulAcara());

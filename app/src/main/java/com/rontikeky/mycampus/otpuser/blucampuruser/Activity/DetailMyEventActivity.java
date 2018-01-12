@@ -91,7 +91,7 @@ public class DetailMyEventActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     Log.d("DEBUG 1",new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
 
-                    Glide.with(DetailMyEventActivity.this).load("http://blucampus.anggitprayogo.com/"+response.body().getFotoAcara()).placeholder(R.drawable.guest).error(R.drawable.guest).into(ivEvent);
+                    Glide.with(DetailMyEventActivity.this).load(response.body().getFotoAcara()).placeholder(R.drawable.guest).error(R.drawable.guest).into(ivEvent);
                     tanggal.setText(response.body().getTanggalAcara());
                     tanggal_valid.setText(response.body().getTanggalAcara());
                     judul.setText(response.body().getJudulAcara());
