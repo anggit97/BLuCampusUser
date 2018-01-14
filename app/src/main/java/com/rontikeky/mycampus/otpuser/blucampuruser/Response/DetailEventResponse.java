@@ -93,6 +93,10 @@ public class DetailEventResponse {
         @SerializedName("status")
         public String status;
 
+        public Peserta(String idUser) {
+            this.idUser = idUser;
+        }
+
         public String getIdUser() {
             return idUser;
         }

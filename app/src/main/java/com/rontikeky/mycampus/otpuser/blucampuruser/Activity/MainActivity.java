@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rontikeky.mycampus.otpuser.blucampuruser.Config.PrefHandler;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     Fragment fragment;
 
+    TextView tvEmailHeader, tvNameHeader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar =   (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("BLuCampus User");
+        getSupportActionBar().setTitle("BLuCampus");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -70,7 +73,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Menu menu    =   navigationView.getMenu();
 //        MenuItem    target  =   menu.findItem(R.id.)
 
-        navigationView.setCheckedItem(R.id.nav_registered_event);
+        tvEmailHeader   =   (TextView)view.findViewById(R.id.emailHeader);
+        tvNameHeader    =   (TextView)view.findViewById(R.id.nameHeader);
+
+        tvEmailHeader.setText(PrefHandler.getEmailKey());
+        tvNameHeader.setText(PrefHandler.getNameKey());
+
+        navigationView.setCheckedItem(R.id.nav_events);
 
         //Listerner untuk Navigation drawer item
         navigationView.setNavigationItemSelectedListener(this);
@@ -101,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toLoginActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(toLoginActivity);
             Toast.makeText(MainActivity.this, "Anda berhasil logout!",Toast.LENGTH_SHORT).show();
-            finish();
         }
 
         if (fragment    !=  null){

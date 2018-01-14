@@ -136,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                         PrefHandler.setEmailKey(response.body().getEmail());
                         PrefHandler.setTelpKey(response.body().getTelp());
                         PrefHandler.setPassKey(password);
+                        PrefHandler.setNameKey(response.body().getNama());
 
                         Intent  toVerifyActivity    =   new Intent(LoginActivity.this, MainActivity.class);
                         toVerifyActivity.putExtra(Constant.OTP_KEY,""+response.body().getOtp());

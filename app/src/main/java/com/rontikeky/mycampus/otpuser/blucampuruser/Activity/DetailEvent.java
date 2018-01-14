@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +22,9 @@ import com.rontikeky.mycampus.otpuser.blucampuruser.Response.DetailEventResponse
 import com.rontikeky.mycampus.otpuser.blucampuruser.RestApi.BlucampusClient;
 import com.rontikeky.mycampus.otpuser.blucampuruser.RestApi.ServiceGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +35,9 @@ public class DetailEvent extends AppCompatActivity {
     TextView judul, isi, tanggal, jam, tempat, contact_person, available, biaya, urlImage,tanggal_valid;
     Button btnDaftar;
 
-    String idEvent;
+    String idEvent, judulEvent;
+
+    List<DetailEventResponse.Peserta> pesertas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,7 @@ public class DetailEvent extends AppCompatActivity {
         if(extrasResult!=null)
         {
             idEvent = extrasResult.getString(Constant.ID_EVENT_KEY);
+            judulEvent  = extrasResult.getString(Constant.JUDUL_EVENT_KEY);
         }
 
 
@@ -70,6 +77,9 @@ public class DetailEvent extends AppCompatActivity {
         });
 
         getDetailEvent(idEvent);
+
+        getSupportActionBar().setTitle(judulEvent);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void getDetailEvent(String idEvent){
@@ -83,6 +93,41 @@ public class DetailEvent extends AppCompatActivity {
             public void onResponse(Call<DetailEventResponse> call, Response<DetailEventResponse> response) {
                 if (response.isSuccessful()){
                     Log.d("DEBUG 1",new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
+
+
+                    int flag = 0;
+                    try {
+                        int i = 0;
+
+                        while(i < response.body().getPeserta().size()){
+                            DetailEventResponse.Peserta peserta = new DetailEventResponse.Peserta(response.body().getPeserta().get(i).getIdUser());
+                            pesertas.add(peserta);
+                            i++;
+                        }
+
+                        Log.d("DEBUG 2", String.valueOf(pesertas.size()));
+
+                        flag = 0;
+                        i = 0;
+
+                        while( i < pesertas.size() && pesertas.size() != 0){
+                            if (pesertas.get(i).getIdUser().equals(PrefHandler.getId())){
+                                flag = 1;
+                                break;
+                            }
+                            i++;
+                        }
+                    } catch (Exception e) {
+                        Log.d("DEBUG ERR", e.getMessage());
+                    }
+
+                    if (flag == 1){
+                        disableButtonRegister();
+                    }else{
+                        enableButtonRegister();
+                    }
+
+                    judulEvent = response.body().getAcara().getJudulAcara();
 
                     Glide.with(DetailEvent.this).load(response.body().getAcara().getFotoAcara()).placeholder(R.drawable.guest).error(R.drawable.guest).into(ivEvent);
                     tanggal.setText(response.body().getAcara().getTanggalAcara());
@@ -105,6 +150,31 @@ public class DetailEvent extends AppCompatActivity {
                 Log.d("DEBUG 3",t.toString());
             }
         });
+    }
+
+    private void enableButtonRegister() {
+        btnDaftar.setEnabled(true);
+        btnDaftar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        btnDaftar.setText("Daftar");
+        btnDaftar.setTextColor(Color.parseColor("#ffffff"));
+    }
+
+    private void disableButtonRegister() {
+        btnDaftar.setEnabled(false);
+        btnDaftar.setBackgroundColor(getResources().getColor(R.color.error_color));
+        btnDaftar.setText("Anda sudah terdaftar");
+        btnDaftar.setTextColor(Color.parseColor("#ffffff"));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void doDaftarEvent(String idUser, String idEvent){

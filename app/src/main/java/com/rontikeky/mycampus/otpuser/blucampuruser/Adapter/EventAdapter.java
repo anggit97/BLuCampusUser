@@ -45,6 +45,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
                 @Override
                 public void onClick(View view) {
                     Intent  toDetailPresenceEvent   =   new Intent(context, DetailEvent.class);
+                    toDetailPresenceEvent.putExtra(Constant.JUDUL_EVENT_KEY,tvJudul.getText().toString());
                     toDetailPresenceEvent.putExtra(Constant.ID_EVENT_KEY,tvIdEvent.getText().toString());
                     itemView.getContext().startActivity(toDetailPresenceEvent);
                 }

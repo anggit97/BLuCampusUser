@@ -6,7 +6,7 @@
 package com.rontikeky.mycampus.otpuser.blucampuruser.Algorithm;
 
 public class SubKey extends Function{
-	
+
     String[] SubKeyFind(String key){
         String[] tempKey = new String[16];
         //untuk mencari sub key kita konversi terlebih dahulu string key ke binnary menggunakan method textToBinnary(stringKuncinya) lalu tampung pada suatu variable
